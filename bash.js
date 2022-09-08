@@ -1,23 +1,21 @@
-// $ node bash.js
-// prompt> ls
-// .git
-// bash.js
-
 const pwd = require("./pwd");
 const ls = require("./ls");
+const cat = require("./cat");
+const done = (output) => {
+  process.stdout.write(output);
+  process.stdout.write("\nprompt > ");
+}
 
-//Output a prompt
+
 process.stdout.write("prompt > ");
-
-// The stdin 'data' event fires after a user types in a line
 process.stdin.on("data", (data) => {
-  let cmd = data.toString().trim(); //remove the newline
+  let cmd = data.toString().trim();
   if (cmd === "pwd") {
-    cmd = pwd();
-  }
-
-  if (cmd === "ls") {
+    pwd();
+  } else if (cmd === "ls") {
     ls();
+  } else if (cmd.split(" ")[0] === "cat") {
+    cat(cmd);
   } else {
     process.stdout.write("You typed: " + cmd);
     process.stdout.write("\nprompt > ");
